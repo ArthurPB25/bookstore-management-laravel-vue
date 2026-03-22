@@ -1,0 +1,21 @@
+services:
+  app:
+    build: .
+    container_name: bookstore_app
+    volumes:
+      - .:/var/www
+    networks:
+      - bookstore_network
+
+  db:
+    image: mysql:8.0
+    container_name: bookstore_db
+    environment:
+      MYSQL_DATABASE: bookstore_db
+      MYSQL_ROOT_PASSWORD: root
+    networks:
+      - bookstore_network
+
+networks:
+  bookstore_network:
+    driver: bridge
