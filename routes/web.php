@@ -1,11 +1,18 @@
 <?php
 
-use App\Http\Controllers\BookController;
+use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
+use App\Http\Controllers\BookController; 
+
 Route::get('/', function () {
-    return redirect()->route('login');
+    return Inertia::render('Welcome', [
+        'canLogin' => Route::has('login'),
+        'canRegister' => Route::has('register'),
+        'laravelVersion' => Application::VERSION,
+        'phpVersion' => PHP_VERSION,
+    ]);
 });
 
 Route::middleware([
@@ -13,12 +20,13 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
-    
-    
     Route::get('/dashboard', function () {
         return Inertia::render('Dashboard');
     })->name('dashboard');
 
-    
-    Route::resource('books', BookController::class);//chama o books controller e crias rotas que ele indica
+    Route::resource('books', BookController::class);
+    Route::resource('books', \App\Http\Controllers\BookController::class);
+
+// OU se estiver fazendo as rotas manualmente:
+Route::delete('/books/{id}', [\App\Http\Controllers\BookController::class, 'destroy'])->name('books.destroy');
 });

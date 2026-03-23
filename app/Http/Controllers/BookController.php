@@ -10,15 +10,11 @@ use Illuminate\Http\Request;
 
 class BookController extends Controller
 {
-    public function __construct()
-    {
-        // Middleware de segurança: Apenas Admin pode deletar
-        $this->middleware('can:delete books')->only('destroy');
-        // Admin e Editor podem criar e editar
-        $this->middleware('can:edit books')->except(['index', 'show', 'destroy']);
-    }
+    
     public function index()
-    {
+    {   
+        
+        
         $books = Book::with('category')->paginate(10);
 
         return Inertia::render('Books/Index', [
@@ -40,12 +36,40 @@ class BookController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
-        Book::create($request->validated());
-        return redirect()->route('books.index')
-        ->with('success', 'Livro cadastro com sucesso!');
-    }
+{
+    $validated = $request->validate([
+        'title' => 'required|string|max:255',
+        'author' => 'required|string|max:255',
+        'isbn' => 'nullable|string|max:20',
+        'price' => 'nullable|numeric',
+        'publication_date' => 'nullable|date',
+        'category_id' => 'required|exists:categories,id', // Validação real
+    ]);
 
+    \App\Models\Book::create($validated);
+
+    return redirect()->route('books.index')->with('success', 'Livro criado!');
+}
+
+
+public function update(Request $request, Book $book)
+{
+    $validated = $request->validate([
+        'title'  => 'required|string|max:255',
+        'author' => 'required|string|max:255',
+        // O ISBN deve ser único, MAS ignorando o ID deste livro atual
+        'isbn'   => 'required|string|max:20|unique:books,isbn,' . $book->id,
+        'price'  => 'required|numeric',
+        'publication_date' => 'nullable|date',
+        'category_id'      => 'required|exists:categories,id',
+    ]);
+
+    
+    $book->update($validated);
+    
+    return redirect()->route('books.index')
+        ->with('success', 'Livro atualizado com sucesso!');
+}
     /**
      * Display the specified resource.
      */
@@ -68,20 +92,17 @@ class BookController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Book $book)
-    {
-        $book->update($request->validated());
-        return redirect()->route('books.index')
-        ->with('success', 'Livro atualizado com sucesso!');
-    }
+    
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Book $book)
-    {
-        $book->delete();
-        return redirect()->route('books.index')
-        ->with('sucess', "Livro removido com sucesso!");
-    }
+    public function destroy($id)
+{
+    $book = \App\Models\Book::findOrFail($id);
+    $book->delete();
+
+    
+    return redirect()->route('books.index')->with('message', 'Livro excluído!');
+}
 }
