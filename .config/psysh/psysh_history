@@ -1,0 +1,57 @@
+use Spatie\Permission\Traits\HasRoles;
+$role = Spatie\Permission\Models\Role::firstOrCreate(['name' => 'admin']);
+Spatie\Permission\Models\Role::count();
+Spatie\Permission\Models\Role::count();
+use Spatie\Permission\Traits\HasRoles;
+Spatie\Permission\Models\Role::count();
+$role = \Spatie\Permission\Models\Role::firstOrCreate(['name' => 'admin']);
+$user = \App\Models\User::first();
+$user->assignRole('admin');
+$role = \Spatie\Permission\Models\Role::firstOrCreate(['name' => 'admin']);
+$user = \App\Models\User::find(1);
+$user->assignRole('admin');
+$user = \App\Models\User::find(1);
+$user->assignRole('admin');
+$user->hasRole('admin');
+App\Models\Book::create([
+    'title' => 'O Senhor dos Anéis',
+    'author' => 'J.R.R. Tolkien',
+    'description' => 'Um clássico da fantasia.',
+    'category_id' => 1 // Certifique-se de que tem uma categoria com ID 1
+]);
+App\Models\Book::create([
+    'title' => 'O Senhor dos Anéis',
+    'author' => 'J.R.R. Tolkien',
+    'isbn' => '9788533613379',
+    'price' => 59.90,
+    'publication_date' => '1954-07-29',
+    'category_id' => 1
+]);
+App\Models\Book::create(['title' => 'O Senhor dos Anéis', 'author' => 'J.R.R. Tolkien', 'isbn' => '9788533613379', 'price' => 59.90, 'publication_date' => '1954-07-29', 'category_id' => 1]);
+App\Models\Book::create(['title' => 'O Senhor dos Anéis', 'author' => 'J.R.R. Tolkien', 'isbn' => '9788533613379', 'price' => 59.90, 'publication_date' => '1954-07-29', 'category_id' => 1]);
+App\Models\Book::create(['title' => 'O Senhor dos Anéis', 'author' => 'J.R.R. Tolkien', 'isbn' => '9788533613379', 'price' => 59.90, 'publication_date' => '1954-07-29', 'category_id' => 1]);
+App\Models\Book::create(['title' => 'O Senhor dos Anéis', 'author' => 'J.R.R. Tolkien', 'isbn' => '9788533613379', 'price' => 59.90, 'publication_date' => '1954-07-29', 'category_id' => 1]);
+$categoria = new App\Models\Category();
+$categoria->name = 'Fantasia';
+$categoria->save();
+App\Models\Book::create([
+    'title' => 'O Senhor dos Anéis',
+    'author' => 'J.R.R. Tolkien',
+    'isbn' => '9788533613379',
+    'price' => 59.90,
+    'publication_date' => '1954-07-29',
+    'category_id' => $categoria->id
+]);
+$user = \App\Models\User::where('email', 'brandaoarthur525@gmail.com')->first();
+$user->assignRole('admin');
+$user->hasRole('admin');
+docker-compose exec app php artisan optimize:clear
+$role = Spatie\Permission\Models\Role::create(['name' => 'editor']);
+$roleEditor = Spatie\Permission\Models\Role::firstOrCreate(['name' => 'editor']);
+$editor = App\Models\User::create([
+    'name' => 'Arthur Editor',
+    'email' => 'editor@teste.com',
+    'password' => Hash::make('senha123'),
+]);
+$editor->assignRole($roleEditor);
+$editor->hasRole('editor');

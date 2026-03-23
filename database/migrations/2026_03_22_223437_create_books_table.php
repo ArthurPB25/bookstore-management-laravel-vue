@@ -17,9 +17,9 @@ return new class extends Migration
             $table->string('author');
             $table->string('isbn')->unique(); // ISBN colocado com String para melhor prática (serve como idntificador)
             $table->decimal('price', 8, 2);
-            $table->date('publication_date');
+            $table->date('publication_date')->nullable()->change();
             
-            $table->foreignId('category_id')->constrained('categories')->onDelete('cascade');
+            $table->foreignId('category_id')->nullable()->constrained('categories')->onDelete('cascade');
 
             
             $table->timestamps();
