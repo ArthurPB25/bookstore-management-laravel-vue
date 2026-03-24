@@ -25,8 +25,4 @@ Route::middleware([
     })->name('dashboard');
 
     Route::resource('books', BookController::class);
-    Route::resource('books', \App\Http\Controllers\BookController::class);
-
-// OU se estiver fazendo as rotas manualmente:
-Route::delete('/books/{id}', [\App\Http\Controllers\BookController::class, 'destroy'])->name('books.destroy');
 });

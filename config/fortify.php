@@ -64,10 +64,10 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Home Path
+    | Fortify Home Path
     |--------------------------------------------------------------------------
     |
-    | Here you may configure the path where users will get redirected during
+    | Here you may configure the path where users will redirect during
     | authentication or password reset when the operations are successful
     | and the user is authenticated. You are free to change this value.
     |
