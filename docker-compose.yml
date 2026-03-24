@@ -2,6 +2,7 @@ services:
   app:
     build: .
     container_name: bookstore_app
+    command: php artisan serve --host=0.0.0.0 --port=8000
     ports:
       - "8000:8000"
     volumes:
